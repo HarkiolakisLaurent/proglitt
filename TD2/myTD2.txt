@@ -1,0 +1,5 @@
+
+Ce plot est un "camembert". A cause de cela, il présente un défaut majeur qui est l'absence de date. On ne sait pas à quel moment ce plot est vrai. Et surtout, il a été créé à partir d'un sondage. Le nombre de personnes ayant répondu n'est pas non plus indiqué.
+On ne peut pas juger cette information car elle dépend de trop de facteurs. Si on refait ce plot demain, les informations obtenues seront certainement différentes.
+
+En ce qui concerne la forme, il est bien de préciser les pourcentages parce que la part du camembert n'est pas forcément proportionnelle à ces pourcentages, et il y a plusieurs variations de bleu dont 2 qui se ressemblent. C'est pourquoi il est nécessaire de les faire apparaître.
