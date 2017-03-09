@@ -9,6 +9,70 @@ output: pdf_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+```{r}
+library(readr);
+df <- read_tsv (file = "/home/utilisateur/proglitt/TD5/tmp/dpt2015.txt",
+                locale = locale(encoding = "ISO-8859-1"));
+```
+
+```{r}
+library(xtable);
+df %>% sample_n(6) %>% as.data.frame() %>% xtable(.);
+
+df;
+```
+
+
+
+```{r}
+df %>% head(n=2);
+```
+
+```{r}
+df %>% select(preusuel);
+```
+```{r}
+df %>% filter(annais == 1948);
+```
+
+```{r}
+df %>% arrange(annais);
+```
+
+```{r}
+df %>% filter(preusuel == 'HANENE');
+```
+
+
+```{r, fig.width=10, fig.height=5}
+library(ggplot2);
+df %>%
+   group_by(annais) %>%
+   summarize(somme=sum(preusuel == "LAURENT")) %>%
+   filter(annais>1980) %>%
+   ggplot(aes(x=annais, y=somme)) +
+          geom_point() + ylim(0,NA) + theme_bw();
+```
+
+Avec Hanene HEDRACHE, on a d'abord représenté le nombre de personnes s'appelant Laurent qui sont nés sur la période de 1900 à 2015. Pour des raisons de lisibilité, nous avons réduit cette période de 1980 à 2015. Cela traduit ainsi une décroissance des Laurent.
+
+
+
+```{r, fig.width=10, fig.height=5}
+library(ggplot2);
+df %>%
+   group_by(dpt) %>%
+   filter(dpt>80,dpt<99) %>%
+   summarize(nb=sum(nombre)) %>%
+   ggplot(aes(x=dpt, y=nb)) +
+          geom_point() + ylim(0,NA) + theme_bw();
+```
+
+Ici nous avons représenté les nombres de naissances par département. Ils sont en général constants mais des départements se démarquent (le 13, le 59, le 69, le 75, etc., le 99 ne comptant pas et le 97 étant les dom tom)
+
+
+
+
 This is a demonstration of how dplyr works.
 
 First, we need some data.
@@ -91,7 +155,7 @@ df %>% group_by(age, sex) %>% summarize(N=n());
 
 How to use in combination with _ggplot()_:
 
-```{r, fig.width=2.5, fig.height=3}
+```{r, fig.width=2.5, fig.height=2}
 library(ggplot2);
 df %>%
    group_by(sex) %>%
@@ -99,3 +163,35 @@ df %>%
    ggplot(aes(x=sex, y=mean_age)) +
           geom_point() + ylim(0,NA) + theme_bw();
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
