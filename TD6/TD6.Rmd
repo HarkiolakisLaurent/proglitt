@@ -205,3 +205,105 @@ ggplot(data=d,aes(x=SN*sqrt(N))) + geom_histogram() + facet_grid(law~N,scales="f
 ```
 
 On obtient alors une belle gaussienne. La largeur varie d'une loi à l'autre car toutes les lois de départ n'ont pas la même variance...
+
+
+
+
+
+
+
+```{r}
+dice <- function(faces=6,n=100)
+{
+  sample(x=seq(from=1,to=faces,by=1),size=n,replace=TRUE);
+}
+
+dice(6,400)
+```
+
+
+
+
+
+
+
+
+
+```{r}
+
+experiment <- function(faces=6,n=100)
+{
+  dice1 <- dice(faces,n);
+  dice2 <- dice(faces,n);
+  dice3 <- dice(faces,n);
+  
+  
+  data.frame(Dice1=dice1,
+              Dice2=dice2,
+              Dice3=dice3);
+  
+  
+}
+
+experiment(6,400)
+
+```
+
+
+
+```{r}
+library(dplyr);
+experiment(faces=6,n=400) %>%
+  mutate(Somme=Dice1 + Dice2 +Dice3)->df02
+df02;
+
+```
+
+
+```{r}
+library(dplyr);
+df02 %>%
+  group_by(Somme) %>%
+  summarize(N=n());
+```
+
+```{r}
+library(dplyr);
+library(ggplot2);
+experiment(n=1E6) %>%
+  mutate(Somme=Dice1 + Dice2 +Dice3) %>%
+   group_by(Somme) %>%
+   summarize(N=n()) %>%
+   mutate(P=N/1E6) %>%
+   ggplot(aes(x=as.factor(Somme),y=P)) + geom_point();
+```
+```{r}
+library(dplyr);
+library(ggplot2);
+experiment(6,1E6) %>%
+  mutate(Sum=Dice1 + Dice2 +Dice3) %>%
+   ggplot(aes(x=as.factor(Sum))) +
+    geom_bar(aes(y=(..count..)/sum(..count..)),width=.3) +
+    xlab("Valeur de la somme")+ylab("Fréquence") +
+    ylim(0,NA)+
+    theme_bw()
+```
+
+
+
+
+```{r}
+library(dplyr);
+
+experiment(faces=6,n=1E6) %>%
+  mutate(Somme=Dice1 + Dice2 +Dice3) %>%
+   group_by(Somme) %>%
+   summarize(N=n()) %>%
+   mutate(P=N/1E6) %>%
+   mutate(sig=sqrt(P*(1-P))) %>%
+   mutate(q=qnorm(0.975)) %>%
+   ggplot(aes(x=as.factor(Somme),y=P)) + geom_point() + geom_errorbar(aes(ymin=P-(q*sig/sqrt(n)),ymax=P+(q*sig/sqrt(n))));
+
+```
+
+
